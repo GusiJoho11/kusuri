@@ -12,13 +12,27 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.websarva.wings.android.kusuri.AppDatabase;
+import com.websarva.wings.android.kusuri.Medication;
+import com.websarva.wings.android.kusuri.MedicationDao;
 import com.websarva.wings.android.kusuri.R;
 import com.websarva.wings.android.kusuri.databinding.FragmentNotificationsBinding;
 
-public class NotificationsFragment extends Fragment {
+import java.util.List;
 
+public class NotificationsFragment extends Fragment {
+    private AppDatabase db;
+    private MedicationDao medicationDao;
     private FragmentNotificationsBinding binding;
     private static final int REQUEST_CODE = 1;  // リクエストコード
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        db = AppDatabase.getDatabase(requireContext());
+        medicationDao = db.medicationDao();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -34,7 +48,8 @@ public class NotificationsFragment extends Fragment {
             Intent intent = new Intent(getActivity(), NotificationsActivity.class);
             startActivityForResult(intent, REQUEST_CODE);  // Activityを開始
         });
-
+        // ここでデータを表示する処理を行う
+        displayMedications();
         return root;
     }
 
@@ -62,5 +77,28 @@ public class NotificationsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void displayMedications() {         //薬のデータを取得し画面に表示
+        // データベースからすべての薬情報を取得（バックグラウンドスレッド）
+        new Thread(() -> {
+            List<Medication> medications = medicationDao.getAllMedications();
+            StringBuilder displayText = new StringBuilder();
+            for (Medication medication : medications) {
+                displayText.append("名前: ").append(medication.name)
+                        .append(", 服用量: ").append(medication.dosage).append("\n")
+                        .append(", 服用回数: ").append(medication.frequency).append("\n")
+                        .append(", 服用開始: ").append(medication.startdate).append("\n")
+                        .append(", 服用終了: ").append(medication.enddate).append("\n")
+                        .append(", メモ: ").append(medication.memo).append("\n")
+                        .append(", リマインダー: ").append(medication.reminder).append("\n");
+
+
+            }
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> binding.noMedListView.setText(displayText.toString()));
+            }
+
+        }).start();
     }
 }

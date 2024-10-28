@@ -2,7 +2,6 @@ package com.websarva.wings.android.kusuri.ui.notifications;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,13 +11,27 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.websarva.wings.android.kusuri.AppDatabase;
+import com.websarva.wings.android.kusuri.Medication;
+import com.websarva.wings.android.kusuri.MedicationDao;
 import com.websarva.wings.android.kusuri.R;
+
+import java.text.ParseException;
 
 public class NotificationsActivity extends AppCompatActivity {
 
-    private Spinner dosageSpinner, notificationSpinner;
-    private EditText medicineNameEdit, memoEdit;
-    private Button registerButton, cancelButton;
+    private EditText medicineNameEdit;          //おくすり名
+    private EditText  dosageEdit;                //服用量の入力
+    private Spinner medicationDosageSpinner;              //錠・包
+    private EditText doscountEdit;            //服薬回数
+//    private EditText medicationStartDateInput;//服薬開始
+//    private EditText medicationEndDateInput;  //服薬終了
+    private EditText memoEdit;                  //メモ
+    private Spinner notificationSpinner;        //通知
+    private Button registerButton, cancelButton;//登録・キャンセルボタン
+
+    private AppDatabase db;
+    private MedicationDao medicationDao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,11 +43,14 @@ public class NotificationsActivity extends AppCompatActivity {
 
         // 登録ボタンのクリックイベント
         registerButton.setOnClickListener(v -> {
-            String medicineName = medicineNameEdit.getText().toString();
+            String medicineName = medicineNameEdit.getText().toString();    //おくすり名
+            String dosage = dosageEdit.getText().toString(); //服用量
+            String dosage_jo_ho = medicationDosageSpinner.getSelectedItem().toString(); //錠・包
+            String dosageCount = doscountEdit.getText().toString();  //服用回数
+
+            //String usePeriod = usePeriodSpinnerge.getSelectedItem().toString();
+
             String memo = memoEdit.getText().toString();
-            String dosage = dosageSpinner.getSelectedItem().toString();
-            //String doseCount = doseCountSpinner.getSelectedItem().toString();
-            //String usePeriod = usePeriodSpinner.getSelectedItem().toString();
             String notification = notificationSpinner.getSelectedItem().toString();
 
             if (medicineName.isEmpty()) {
@@ -43,14 +59,37 @@ public class NotificationsActivity extends AppCompatActivity {
             }
 
             // 入力データをIntentで返す
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("medicineName", medicineName);
-            resultIntent.putExtra("memo", memo);
-            resultIntent.putExtra("dosage", dosage);
-            //resultIntent.putExtra("doseCount", doseCount);
-            //resultIntent.putExtra("usePeriod", usePeriod);
-            resultIntent.putExtra("notification", notification);
-            setResult(RESULT_OK, resultIntent);  // 結果を設定
+//            Intent resultIntent = new Intent();
+//            resultIntent.putExtra("medicineName", medicineName);
+//            resultIntent.putExtra("memo", memo);
+//            resultIntent.putExtra("dosage", dosage);
+//            resultIntent.putExtra("doseCount", doseCount);
+//            //resultIntent.putExtra("usePeriod", usePeriod);
+//            resultIntent.putExtra("notification", notification);
+//            setResult(RESULT_OK, resultIntent);  // 結果を設定
+
+            // Medication オブジェクトを作成して保存
+            Medication medication = new Medication();
+            medication.name = medicineName;
+            medication.dosage = Integer.parseInt(dosage);
+            medication.frequency = Integer.parseInt(dosageCount);
+//            medication.startdate = startDateLong;
+//            medication.enddate = endDateLong;
+            medication.memo = memo;
+            medication.reminder = notification;  // リマインダー設定
+
+            try {
+            // データベースに薬情報を挿入（バックグラウンドスレッドで処理）
+            new Thread(() -> {
+                medicationDao.insertMedication(medication);
+//            runOnUiThread(this::displayMedications);  // メインスレッドでリストを更新
+
+            }).start();
+        } catch (NumberFormatException e) {
+            if (this != null) {
+                Toast.makeText(this, "全ての項目に値を入力してください。", Toast.LENGTH_LONG).show();
+            }
+        }
             finish();  // Activityを閉じる
         });
 
@@ -59,23 +98,31 @@ public class NotificationsActivity extends AppCompatActivity {
             finish();  // 画面を閉じる
             Toast.makeText(this, "キャンセルしました", Toast.LENGTH_SHORT).show();
         });
+
+        db = AppDatabase.getDatabase(this);
+        medicationDao = db.medicationDao();
     }
 
     private void initializeViews() {
-        dosageSpinner = findViewById(R.id.dosage_spinner);
+        medicineNameEdit = findViewById(R.id.medicine_name_edit); // 薬の名前
+        dosageEdit = findViewById(R.id.dosage_input); // 服用量
+        medicationDosageSpinner = findViewById(R.id.dosage_spinner); // 錠・包
+
+        doscountEdit = findViewById(R.id.doscount_input); // 服用回数
+
         //doseCountSpinner = findViewById(R.id.dose_count_spinner);
         //usePeriodSpinner = findViewById(R.id.use_period_spinner);
-        notificationSpinner = findViewById(R.id.notification_spinner);
 
-        medicineNameEdit = findViewById(R.id.medicine_name_edit);
-        memoEdit = findViewById(R.id.memo_edit);
+        memoEdit = findViewById(R.id.memo_edit);    // メモ
+
+        notificationSpinner = findViewById(R.id.notification_spinner);  // 通知
 
         registerButton = findViewById(R.id.register_button);
         cancelButton = findViewById(R.id.cancel_button);
     }
 
     private void setupSpinners() {
-        setupSpinner(dosageSpinner, R.array.dosage_options);
+        setupSpinner(medicationDosageSpinner, R.array.dosage_options);
         //setupSpinner(doseCountSpinner, R.array.dose_count_options);
         //setupSpinner(usePeriodSpinner, R.array.use_period_options);
         setupSpinner(notificationSpinner, R.array.notification_options);
