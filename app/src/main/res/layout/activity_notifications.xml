@@ -148,8 +148,8 @@
             android:id="@+id/memo_edit"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:hint="メモを入力してください"
             android:background="#E0E0E0"
+            android:hint="メモを入力してください"
             android:textSize="20sp" />
     </LinearLayout>
 
