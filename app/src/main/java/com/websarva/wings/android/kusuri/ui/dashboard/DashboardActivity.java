@@ -12,6 +12,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.websarva.wings.android.kusuri.AppDatabase;
+import com.websarva.wings.android.kusuri.HealthCare;
+import com.websarva.wings.android.kusuri.HealthCareDao;
+import com.websarva.wings.android.kusuri.Medication;
 import com.websarva.wings.android.kusuri.R;
 
 import java.text.SimpleDateFormat;
@@ -21,57 +25,56 @@ import java.util.Locale;
 public class DashboardActivity extends AppCompatActivity {
 
     private TextView dateTextView;
-    private EditText tempEditText, bpEditText, weightEditText, sugarEditText;
-    private Button registerButton, deleteButton;
+
+    private EditText tempEditText;           //体温
+    private EditText bpUpEditText;           //血圧（上）
+    private EditText bpDownEditText;        //血圧（下）
+    private EditText weightEditText;        //体重
+    private EditText sugarEditText;          //血糖値
+
+    private Button registerButton, deleteButton;    //登録・キャンセルボタン
     private ScrollView scrollView;
     private String currentDate;
+
+    private AppDatabase db;
+    private HealthCareDao healthCareDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        HCinitializeViews(); // 各ビューの初期化
 
         scrollView = findViewById(R.id.scrollView);
-
         // 日付の表示
         dateTextView = findViewById(R.id.dateTextView);
         currentDate = new SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault()).format(new Date());
         dateTextView.setText("本日 : " + currentDate);
 
-        // レイアウトのバインディング
-        tempEditText = findViewById(R.id.tempEditText);
-        bpEditText = findViewById(R.id.bpEditText);
-        weightEditText = findViewById(R.id.weightEditText);
-        sugarEditText = findViewById(R.id.sugarEditText);
-
-        registerButton = findViewById(R.id.registerButton);
-        deleteButton = findViewById(R.id.deleteButton);
-
         // 登録ボタンのクリックリスナー
         registerButton.setOnClickListener(v -> {
             String temp = tempEditText.getText().toString().trim();
-            String bp = bpEditText.getText().toString().trim();
+            String bpUp = bpUpEditText.getText().toString().trim();
+            String bpDown = bpDownEditText.getText().toString().trim();
             String weight = weightEditText.getText().toString().trim();
             String sugar = sugarEditText.getText().toString().trim();
 
             // 入力チェック：すべて空ならエラーメッセージを表示
-            if (temp.isEmpty() && bp.isEmpty() && weight.isEmpty() && sugar.isEmpty()) {
+            if (temp.isEmpty() && bpUp.isEmpty() && bpDown.isEmpty() && weight.isEmpty() && sugar.isEmpty()) {
                 Toast.makeText(DashboardActivity.this, "登録する情報を入力してください", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Intentにデータを格納
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("date", currentDate);
-            resultIntent.putExtra("temperature", temp);
-            resultIntent.putExtra("bloodPressure", bp);
-            resultIntent.putExtra("weight", weight);
-            resultIntent.putExtra("bloodSugar", sugar);
+//            // Medication オブジェクトを作成して保存
+//            HealthCare healthCare = new HealthCare();
+//            healthCare.temperature= Integer.parseInt(temp);
+//            healthCare.pressureUp =
+
 
             Toast.makeText(DashboardActivity.this, "登録しました", Toast.LENGTH_SHORT).show();
-            setResult(RESULT_OK, resultIntent);
             finish(); // アクティビティを終了
         });
+
 
         // キャンセルボタンのクリックリスナー
         deleteButton.setOnClickListener(v -> {
@@ -90,5 +93,18 @@ public class DashboardActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+    }
+
+    //服薬登録画面から画面部品の取得
+    private void HCinitializeViews() {
+        tempEditText = findViewById(R.id.tempEditText);                       //体温
+        bpUpEditText = findViewById(R.id.bpUpEditText);                       //血圧(上)
+        bpDownEditText = findViewById(R.id.bpDownEditText);                   //血圧（下）
+        weightEditText = findViewById(R.id.weightEditText);                   //体重
+        sugarEditText = findViewById(R.id.sugarEditText);                     //血糖値
+        registerButton = findViewById(R.id.registerButton);                   //登録ボタン
+        deleteButton = findViewById(R.id.deleteButton);                       //キャンセルボタン
     }
 }
