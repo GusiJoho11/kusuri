@@ -37,7 +37,7 @@ public class Medication {
 
     // 日付をフォーマットして返すメソッド
     public String getFormattedCreationDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日", Locale.getDefault());
         return sdf.format(new Date(createdAt));
     }
 }

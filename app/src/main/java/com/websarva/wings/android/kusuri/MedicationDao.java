@@ -2,8 +2,10 @@ package com.websarva.wings.android.kusuri;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -20,6 +22,19 @@ public interface MedicationDao {
     // 作成日の降順で薬を取得
     @Query("SELECT * FROM Medication ORDER BY  createdAt DESC")
     LiveData<List<Medication>> getAllMedicationsByCreationDate();
+
+    // 指定された薬を削除
+    @Delete
+    void deleteMedication(Medication medication);
+
+
+    // 指定IDの薬を取得
+    @Query("SELECT * FROM Medication WHERE id = :medicationId")
+    Medication getMedicationById(int medicationId);
+
+    // 指定された薬を更新
+    @Update
+    void updateMedication(Medication medication);
 
 
 }

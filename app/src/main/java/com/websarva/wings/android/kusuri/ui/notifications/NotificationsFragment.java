@@ -89,53 +89,10 @@ public class NotificationsFragment extends Fragment {
 
     }
 
-    //    @Override
-//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == REQUEST_CODE && resultCode == getActivity().RESULT_OK && data != null) {
-//            // Intentからデータを取得
-//            String medicineName = data.getStringExtra("medicineName");
-//            String memo = data.getStringExtra("memo");
-//            String dosage = data.getStringExtra("dosage");
-//            String doseCount = data.getStringExtra("doseCount");
-//            String usePeriod = data.getStringExtra("usePeriod");
-//            String notification = data.getStringExtra("notification");
-//
-//            // TextViewにデータを表示
-//            binding.noMedListView.setText(
-//                    String.format("お薬名: %s\nメモ: %s\n服用量: %s\n服用回数: %s\n期間: %s\n通知: %s",
-//                            medicineName, memo, dosage, doseCount, usePeriod, notification));
-//        }
-//    }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
 
-    private void displayMedications() {         //薬のデータを取得し画面に表示
-        // データベースからすべての薬情報を取得（バックグラウンドスレッド）
-        new Thread(() -> {
-            List<Medication> medications = medicationDao.getAllMedications();
-            StringBuilder displayText = new StringBuilder();
-            for (Medication medication : medications) {
-                displayText.append("名前: ").append(medication.name)
-                        .append(", 服用量: ").append(medication.dosage).append("\n")
-                        .append(", 錠・包: ").append(medication.dosageSpinner).append("\n")
-                        .append(", 服用回数: ").append(medication.frequency).append("\n")
-                        .append(", 服用開始: ").append(medication.startdate).append("\n")
-                        .append(", 服用終了: ").append(medication.enddate).append("\n")
-                        .append(", メモ: ").append(medication.memo).append("\n")
-                        .append(", リマインダー: ").append(medication.reminder).append("\n");
-
-
-            }
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> binding.noMedListView.setText(displayText.toString()));
-            }
-
-        }).start();
-    }
 }

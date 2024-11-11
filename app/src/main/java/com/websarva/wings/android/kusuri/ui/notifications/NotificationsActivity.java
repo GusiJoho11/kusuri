@@ -2,6 +2,8 @@ package com.websarva.wings.android.kusuri.ui.notifications;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -109,7 +111,6 @@ public class NotificationsActivity extends AppCompatActivity {
             finish();  // Activityを閉じる
         });
 
-
         // キャンセルボタンのクリックイベント
         cancelButton.setOnClickListener(v -> {
             finish();  // 画面を閉じる
@@ -119,17 +120,6 @@ public class NotificationsActivity extends AppCompatActivity {
         db = AppDatabase.getDatabase(this);
         medicationDao = db.medicationDao();
 
-//        RecyclerView rvMedication = findViewById(R.id.recycler_view);
-//        //LineraLayoutManagerオブジェクト
-//        LinearLayoutManager layout = new LinearLayoutManager(NotificationsActivity.this);
-//        //RecyclerViewにレイアウトマネージャーとしてLinearLayoutManagerを設定
-//        rvMedication.setLayoutManager(layout);
-//        //おくすり情報のリストデータを生成
-//        List<Medication> medicationsList = createMedicationList();
-//        //アダプタオブジェクトを生成
-//        RecyclerListAdapter adapter = new RecyclerListAdapter(medicationsList);
-//        //RecyclerViewにアダプタオブジェクトをセット
-//        rvMedication.setAdapter(adapter);
     }
 
     // DatePickerDialogを表示し、選択した日付をEditTextにセットする
@@ -156,6 +146,7 @@ public class NotificationsActivity extends AppCompatActivity {
         Date date = dateFormat.parse(dateStr);
         return date != null ? date.getTime() : 0;  // nullの場合は0を返す
     }
+
     //おくすり登録画面から画面部品の取得
     private void initializeViews() {
         medicineNameEdit = findViewById(R.id.medicine_name_edit);               // 薬の名前
@@ -168,7 +159,12 @@ public class NotificationsActivity extends AppCompatActivity {
         notificationSpinner = findViewById(R.id.notification_spinner);          // 通知
         registerButton = findViewById(R.id.register_button);                    //登録ボタン
         cancelButton = findViewById(R.id.cancel_button);                        //キャンセルボタン
+
+        //各項目の入力制限
+        dosageEdit.setFilters(new InputFilter[]{ new medicationDosageFilter() });
+        doscountEdit.setFilters(new InputFilter[]{ new medicationFrequencyFilter() });
     }
+
 //錠・包と、リマインダーのドロップダウンリストの画面部品を取得
     private void setupSpinners() {
         setupSpinner(medicationDosageSpinner, R.array.dosage_options);
@@ -182,19 +178,32 @@ public class NotificationsActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-////リサイクラービューに関するソースコード
-//    private class RecyclerListViewHolder extends RecyclerView.ViewHolder{
-//        //リスト一行分でおくすり名を表示する画面部品
-//        public TextView _medication_name;
-//        //リスト一行分でおくすり登録日を表示する画面部品
-//        public TextView _medication_date;
-//
-//        //コンストラクタ
-//        public RecyclerListViewHolder(View itemView) {
-//            //親クラスのコンストラクタの呼び出し
-//            super(itemView);
-//            //引数で渡されたリスト一行分の画面部品中から表示に使われるTextiewを取得。
-//            _medication_name = itemView.findViewById(R.id.medication_name);
-//            _medication_date = itemView.findViewById(R.id.medication_date);
-//        }
+
+    //  InputFilterを使って服用量の入力制限
+    public class medicationDosageFilter implements InputFilter {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String newInput = dest.subSequence(0, dstart) + source.toString() + dest.subSequence(dend, dest.length());
+
+            // 整数部1桁 (例: "2"など)
+            if (newInput.matches("^\\d{0,1}")) {
+                return null;  // 入力が有効な場合は変更なし
+            }
+            return "";  // 無効な入力を制限
+        }
     }
+
+    //  InputFilterを使って服用回数の入力制限
+    public class medicationFrequencyFilter implements InputFilter {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            String newInput = dest.subSequence(0, dstart) + source.toString() + dest.subSequence(dend, dest.length());
+
+            // 整数部1桁 (例: "2"など)
+            if (newInput.matches("^\\d{0,1}")) {
+                return null;  // 入力が有効な場合は変更なし
+            }
+            return "";  // 無効な入力を制限
+        }
+    }
+}

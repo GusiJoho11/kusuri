@@ -23,18 +23,29 @@ public class HealthCare {
 
     // デフォルトのコンストラクタで現在のタイムスタンプを設定
     public HealthCare() {
-//        this.name = "";
-//        this.dosage = 0;
-//        this.frequency = 0;
-//        this.startdate = 0;
-//        this.enddate = 0;
-//        this.reminder = "false";
+        this.id = 0;
+        this.temperature = 0;
+        this.pressureUp = 0;
+        this.pressureDown = 0;
+        this.weight = 0;
+        this.sugar = 0;
         this.createdAt = System.currentTimeMillis(); // 現在のタイムスタンプを設定
+    }
+
+    // IDを取得するメソッド
+    public int getId() {
+        return id;
     }
 
     // 日付をフォーマットして返すメソッド
     public String getFormattedCreationDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日", Locale.getDefault());
+        return sdf.format(new Date(createdAt));
+    }
+
+    // 日付をフォーマットして返すメソッド
+    public String getFormattedCreationTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return sdf.format(new Date(createdAt));
     }
 }

@@ -56,7 +56,7 @@
                     android:id="@+id/morningButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="朝"
+                    android:text="7:00"
                     android:layout_marginStart="300dp"/>
             </LinearLayout>
 
@@ -78,7 +78,7 @@
                     android:id="@+id/noonButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="昼"
+                    android:text="12:00"
                     android:layout_marginStart="300dp"/>
             </LinearLayout>
 
@@ -100,7 +100,7 @@
                     android:id="@+id/eveningButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="夕"
+                    android:text="18:00"
                     android:layout_marginStart="300dp"/>
             </LinearLayout>
 

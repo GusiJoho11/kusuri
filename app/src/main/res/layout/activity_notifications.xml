@@ -68,7 +68,6 @@
             android:layout_weight="1"
             android:hint="(１日)"
             android:inputType="number"
-            android:maxLength="2"
             android:textSize="20sp"
             android:gravity="center_vertical" />
 
@@ -100,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:inputType="number"
-            android:maxLength="2"
             android:hint="(１回)"
             android:textSize="20sp"
             android:gravity="center_vertical" />

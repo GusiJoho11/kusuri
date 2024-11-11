@@ -113,6 +113,7 @@
             android:layout_height="wrap_content"
             android:hint="血圧（上）"
             android:inputType="number"
+            android:maxLength="3"
             android:padding="15dp"
             android:textSize="20sp"
             android:focusableInTouchMode="true"/>
@@ -122,6 +123,7 @@
             android:layout_height="wrap_content"
             android:hint="血圧（下）"
             android:inputType="number"
+            android:maxLength="3"
             android:padding="15dp"
             android:textSize="20sp"
             android:focusableInTouchMode="true"/>
@@ -171,6 +173,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="血糖値"
+            android:maxLength="3"
             android:inputType="number"
             android:padding="15dp"
             android:textSize="20sp"

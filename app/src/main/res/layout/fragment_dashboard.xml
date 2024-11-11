@@ -42,4 +42,17 @@
         android:padding="16dp"
         android:text="ここに医療情報が表示されます"
         android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_hc"
+        android:name="com.websarva.wings.android.medicationsample.ui.notifications.NotificationFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".ui.notifications.MedicationListFragment"
+        tools:listitem="@layout/item_medication_list" />
+
 </LinearLayout>

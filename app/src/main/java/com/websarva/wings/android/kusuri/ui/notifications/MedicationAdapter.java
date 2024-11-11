@@ -1,5 +1,6 @@
 package com.websarva.wings.android.kusuri.ui.notifications;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,18 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
 
     public MedicationAdapter(List<Medication> medicationList) {
         this.medicationList = medicationList;
+
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textView1;
+        TextView textView2;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            textView1 = itemView.findViewById(R.id.healthcare_id);
+            textView2 = itemView.findViewById(R.id.healthcare_date);
+        }
     }
 
     @NonNull
@@ -33,6 +46,13 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
         Medication medication = medicationList.get(position);
         holder.medicationName.setText(medication.name);
         holder.medicationDate.setText(medication.getFormattedCreationDate());
+
+        // 行の位置によって背景色を交互に設定
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));  // 偶数行: 白
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#F1EFF8"));  // 奇数行: 薄い紫
+        }
     }
 
     @Override
@@ -47,6 +67,8 @@ public class MedicationAdapter extends RecyclerView.Adapter<MedicationAdapter.Me
             super(itemView);
             medicationName = itemView.findViewById(R.id.medication_name);
             medicationDate =  itemView.findViewById(R.id.medication_date);
+
+
         }
     }
 

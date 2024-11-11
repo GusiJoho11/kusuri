@@ -5,6 +5,8 @@
     <!--    体調管理一覧のラベル-->
     <string name="da_medicine_list">体調管理一覧</string>
     <string name="da_new_registration">新規登録</string>
+    <string name="da_hc_redact">編集</string>
+    <string name="da_hc_remove">削除</string>
 
     <!-- ボトムナビゲーションの項目 -->
     <string name="title_home">Home</string>
@@ -25,9 +27,12 @@
 
 
 
+
     <!--    お薬一覧のラベル-->
     <string name="no_medicine_list">おくすり一覧</string>
     <string name="no_new_registration">新規登録</string>
+    <string name="da_md_redact">編集</string>
+    <string name="da_md_remove">削除</string>
 
 
 
