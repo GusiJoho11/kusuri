@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {Medication.class,HealthCare.class}, version = 5, exportSchema = false)
+@Database(entities = {Medication.class,HealthCare.class}, version = 6, exportSchema = false)
 //@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract MedicationDao medicationDao();

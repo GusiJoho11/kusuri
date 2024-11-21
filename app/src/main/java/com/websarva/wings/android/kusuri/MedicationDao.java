@@ -27,7 +27,6 @@ public interface MedicationDao {
     @Delete
     void deleteMedication(Medication medication);
 
-
     // 指定IDの薬を取得
     @Query("SELECT * FROM Medication WHERE id = :medicationId")
     Medication getMedicationById(int medicationId);

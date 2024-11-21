@@ -89,7 +89,7 @@ public class DashboardActivity extends AppCompatActivity {
                 Toast.makeText(this, "全ての項目に値を入力してください。", Toast.LENGTH_LONG).show();
             }
         }
-            Toast.makeText(DashboardActivity.this, "登録しました", Toast.LENGTH_SHORT).show();
+            Toast.makeText(DashboardActivity.this, "健康情報を登録しました", Toast.LENGTH_LONG).show();
             finish();  // Activityを閉じる
     });
 

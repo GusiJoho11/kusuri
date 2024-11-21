@@ -77,9 +77,10 @@ public class NotificationsFragment extends Fragment {
         // LiveData を観察してデータが変わったらアダプターにセット
         viewModel.getMedicationList().observe(getViewLifecycleOwner(), medicationList -> {
             Log.d("NotificationsFragment", "medicationList = " + medicationList);
-            adapter = new MedicationAdapter(medicationList);
+            adapter = new MedicationAdapter(medicationList, medicationDao, requireContext());
             recyclerView.setAdapter(adapter);
         });
+
 
         // 登録ボタンのクリックでNotificationsActivityを開く
         binding.btNoReg.setOnClickListener(v -> {

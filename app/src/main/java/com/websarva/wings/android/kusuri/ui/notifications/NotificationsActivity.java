@@ -23,6 +23,7 @@ import com.websarva.wings.android.kusuri.MainActivity;
 import com.websarva.wings.android.kusuri.Medication;
 import com.websarva.wings.android.kusuri.MedicationDao;
 import com.websarva.wings.android.kusuri.R;
+import com.websarva.wings.android.kusuri.ui.dashboard.DashboardActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,7 @@ public class NotificationsActivity extends AppCompatActivity {
     private EditText  dosageEdit;                   //服用量の入力
     private Spinner medicationDosageSpinner;        //錠・包
     private EditText doscountEdit;                  //服薬回数
+    private Spinner timingSpinner;                  //服薬タイミング
     private EditText medicationStartDateInput;      //服薬開始
     private EditText medicationEndDateInput;        //服薬終了
     private EditText memoEdit;                      //メモ
@@ -65,10 +67,11 @@ public class NotificationsActivity extends AppCompatActivity {
             String dosage = dosageEdit.getText().toString();                             //服用量
             String dosage_jo_ho = medicationDosageSpinner.getSelectedItem().toString();  //錠・包
             String dosageCount = doscountEdit.getText().toString();                      //服用回数
+            String md_timing = timingSpinner.getSelectedItem().toString();              //服薬タイミング
             String startDateLong = medicationStartDateInput.getText().toString();       //服薬開始日
             String endDateLong = medicationEndDateInput.getText().toString();           //服薬終了日
-            String memo = memoEdit.getText().toString();
-            String notification = notificationSpinner.getSelectedItem().toString();
+            String memo = memoEdit.getText().toString();                                //メモ
+            String notification = notificationSpinner.getSelectedItem().toString();     //通知
 
             if (medicineName.isEmpty()) {
                 Toast.makeText(this, "おくすり名を入力してください", Toast.LENGTH_SHORT).show();
@@ -87,6 +90,7 @@ public class NotificationsActivity extends AppCompatActivity {
             medication.dosage = Integer.parseInt(dosage);
             medication.dosageSpinner = dosage_jo_ho;
             medication.frequency = Integer.parseInt(dosageCount);
+            medication.timing = md_timing;
             medication.startdate = StartDateLong;
             medication.enddate = EndDateLong;
             medication.memo = memo;
@@ -108,6 +112,7 @@ public class NotificationsActivity extends AppCompatActivity {
                 Toast.makeText(this, "日付の形式が正しくありません。", Toast.LENGTH_LONG).show();
             }
         }
+            Toast.makeText(NotificationsActivity.this, "おくすりを登録しました", Toast.LENGTH_LONG).show();
             finish();  // Activityを閉じる
         });
 
@@ -116,6 +121,8 @@ public class NotificationsActivity extends AppCompatActivity {
             finish();  // 画面を閉じる
             Toast.makeText(this, "キャンセルしました", Toast.LENGTH_SHORT).show();
         });
+
+
 
         db = AppDatabase.getDatabase(this);
         medicationDao = db.medicationDao();
@@ -153,6 +160,7 @@ public class NotificationsActivity extends AppCompatActivity {
         dosageEdit = findViewById(R.id.dosage_input);                           // 服用量
         medicationDosageSpinner = findViewById(R.id.dosage_spinner);            // 錠・包
         doscountEdit = findViewById(R.id.doscount_input);                       // 服用回数
+        timingSpinner = findViewById(R.id.MDtiming_spinner);                 //服薬タイミング
         medicationStartDateInput = findViewById(R.id.medication_startdate);     //服薬開始日
         medicationEndDateInput = findViewById(R.id.medication_enddate);         //服薬終了日
         memoEdit = findViewById(R.id.memo_edit);                                // メモ
@@ -160,9 +168,6 @@ public class NotificationsActivity extends AppCompatActivity {
         registerButton = findViewById(R.id.register_button);                    //登録ボタン
         cancelButton = findViewById(R.id.cancel_button);                        //キャンセルボタン
 
-        //各項目の入力制限
-        dosageEdit.setFilters(new InputFilter[]{ new medicationDosageFilter() });
-        doscountEdit.setFilters(new InputFilter[]{ new medicationFrequencyFilter() });
     }
 
 //錠・包と、リマインダーのドロップダウンリストの画面部品を取得
@@ -179,31 +184,5 @@ public class NotificationsActivity extends AppCompatActivity {
     }
 
 
-    //  InputFilterを使って服用量の入力制限
-    public class medicationDosageFilter implements InputFilter {
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            String newInput = dest.subSequence(0, dstart) + source.toString() + dest.subSequence(dend, dest.length());
 
-            // 整数部1桁 (例: "2"など)
-            if (newInput.matches("^\\d{0,1}")) {
-                return null;  // 入力が有効な場合は変更なし
-            }
-            return "";  // 無効な入力を制限
-        }
-    }
-
-    //  InputFilterを使って服用回数の入力制限
-    public class medicationFrequencyFilter implements InputFilter {
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-            String newInput = dest.subSequence(0, dstart) + source.toString() + dest.subSequence(dend, dest.length());
-
-            // 整数部1桁 (例: "2"など)
-            if (newInput.matches("^\\d{0,1}")) {
-                return null;  // 入力が有効な場合は変更なし
-            }
-            return "";  // 無効な入力を制限
-        }
-    }
 }

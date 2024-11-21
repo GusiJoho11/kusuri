@@ -69,29 +69,29 @@
             android:background="@android:color/darker_gray" />
 
         <!-- 体温入力 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/temperature"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/tempEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint= "体温"
-            android:inputType="numberDecimal"
-            android:padding="15dp"
-            android:textSize="20sp"
-            android:focusableInTouchMode="true"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/temperature"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/tempEditText_ud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint= "体温"
+                android:inputType="numberDecimal"
+                android:padding="15dp"
+                android:textSize="20sp"
+                android:focusableInTouchMode="true"/>
+        </LinearLayout>
 
         <!-- 体重入力 -->
         <LinearLayout
@@ -108,7 +108,7 @@
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/weightEditText"
+                android:id="@+id/weightEditText_ud"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
@@ -120,66 +120,66 @@
 
 
         <!-- 血圧入力 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/blood_pressure"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/bpUpEditText"
-            android:layout_width="167dp"
-            android:layout_height="wrap_content"
-            android:hint="血圧（上）"
-            android:inputType="number"
-            android:maxLength="3"
-            android:padding="15dp"
-            android:textSize="20sp"
-            android:focusableInTouchMode="true"/>
-        <EditText
-            android:id="@+id/bpDownEditText"
-            android:layout_width="167dp"
-            android:layout_height="wrap_content"
-            android:hint="血圧（下）"
-            android:inputType="number"
-            android:maxLength="3"
-            android:padding="15dp"
-            android:textSize="20sp"
-            android:focusableInTouchMode="true"/>
-    </LinearLayout>
-
-
-    <!-- 血糖値 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp">
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:text="@string/blood_sugar"
-            android:textSize="20sp" />
-        <EditText
-            android:id="@+id/sugarEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="血糖値"
-            android:maxLength="3"
-            android:inputType="number"
-            android:padding="15dp"
-            android:textSize="20sp"
-            android:focusableInTouchMode="true"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/blood_pressure"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/bpUpEditText_ud"
+                android:layout_width="167dp"
+                android:layout_height="wrap_content"
+                android:hint="血圧（上）"
+                android:inputType="number"
+                android:maxLength="3"
+                android:padding="15dp"
+                android:textSize="20sp"
+                android:focusableInTouchMode="true"/>
+            <EditText
+                android:id="@+id/bpDownEditText_ud"
+                android:layout_width="167dp"
+                android:layout_height="wrap_content"
+                android:hint="血圧（下）"
+                android:inputType="number"
+                android:maxLength="3"
+                android:padding="15dp"
+                android:textSize="20sp"
+                android:focusableInTouchMode="true"/>
+        </LinearLayout>
+
+
+        <!-- 血糖値 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/blood_sugar"
+                android:textSize="20sp" />
+            <EditText
+                android:id="@+id/sugarEditText_ud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="血糖値"
+                android:maxLength="3"
+                android:inputType="number"
+                android:padding="15dp"
+                android:textSize="20sp"
+                android:focusableInTouchMode="true"/>
+        </LinearLayout>
 
         <!-- ボタンエリア -->
         <LinearLayout
@@ -190,13 +190,13 @@
             android:paddingTop="20dp">
 
             <Button
-                android:id="@+id/registerButton"
+                android:id="@+id/registerButton_ud"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/da_register" />
 
             <Button
-                android:id="@+id/deleteButton"
+                android:id="@+id/deleteButton_ud"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"

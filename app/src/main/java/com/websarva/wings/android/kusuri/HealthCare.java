@@ -11,12 +11,12 @@ import java.util.Locale;
 @Entity
 public class HealthCare {
     @PrimaryKey(autoGenerate = true)
-    public int id;                  //自動生成されるID
-    public double temperature;        //体温
-    public int pressureUp;            //血圧（上）
-    public int pressureDown;            //血圧（下）
-    public double weight;              //体重
-    public int sugar;
+    public int id;                   //自動生成されるID
+    public double temperature;       //体温
+    public int pressureUp;           //血圧（上）
+    public int pressureDown;         //血圧（下）
+    public double weight;            //体重
+    public int sugar;                //血糖値
 
     @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
     public long createdAt;     // 登録日時（Unixタイムスタンプ）

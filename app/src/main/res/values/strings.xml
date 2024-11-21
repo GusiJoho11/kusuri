@@ -53,6 +53,15 @@
         <item>包</item>
     </string-array>
 
+    <!-- Spinner の選択肢 -->
+    <string-array name="MDtiming">
+        <item>食前</item>
+        <item>食後</item>
+        <item>食間</item>
+        <item>就寝前</item>
+        <item>頓服</item>
+    </string-array>
+
 <!--    <string-array name="dose_count_options">-->
 <!--        <item>1回</item>-->
 <!--        <item>2回</item>-->
