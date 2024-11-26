@@ -13,10 +13,12 @@ public class HealthCare {
     @PrimaryKey(autoGenerate = true)
     public int id;                   //自動生成されるID
     public double temperature;       //体温
+    public double weight;            //体重
     public int pressureUp;           //血圧（上）
     public int pressureDown;         //血圧（下）
-    public double weight;            //体重
+    public String hc_timing;         //食前・食後
     public int sugar;                //血糖値
+    
 
     @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
     public long createdAt;     // 登録日時（Unixタイムスタンプ）
@@ -25,15 +27,16 @@ public class HealthCare {
     public HealthCare() {
         this.id = 0;
         this.temperature = 0;
+        this.weight = 0;
         this.pressureUp = 0;
         this.pressureDown = 0;
-        this.weight = 0;
         this.sugar = 0;
         this.createdAt = System.currentTimeMillis(); // 現在のタイムスタンプを設定
     }
 
     // IDを取得するメソッド
     public int getId() {
+
         return id;
     }
 
@@ -48,4 +51,6 @@ public class HealthCare {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return sdf.format(new Date(createdAt));
     }
+
+
 }

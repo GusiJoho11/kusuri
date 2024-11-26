@@ -169,16 +169,25 @@
             android:gravity="center_vertical"
             android:text="@string/blood_sugar"
             android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/HCtiming_spinner"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/HCtiming"
+            android:padding="8dp"
+            android:gravity="center_vertical" />
+
         <EditText
             android:id="@+id/sugarEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
             android:hint="血糖値"
-            android:maxLength="3"
             android:inputType="number"
+            android:maxLength="3"
             android:padding="15dp"
-            android:textSize="20sp"
-            android:focusableInTouchMode="true"/>
+            android:textSize="20sp" />
     </LinearLayout>
 
         <!-- ボタンエリア -->

@@ -64,17 +64,35 @@ public class NotificationsActivity extends AppCompatActivity {
         // 登録ボタンのクリックイベント
         registerButton.setOnClickListener(v -> {
             String medicineName = medicineNameEdit.getText().toString();                 //おくすり名
+            String dosageCount = doscountEdit.getText().toString();                      //服用回数
             String dosage = dosageEdit.getText().toString();                             //服用量
             String dosage_jo_ho = medicationDosageSpinner.getSelectedItem().toString();  //錠・包
-            String dosageCount = doscountEdit.getText().toString();                      //服用回数
             String md_timing = timingSpinner.getSelectedItem().toString();              //服薬タイミング
             String startDateLong = medicationStartDateInput.getText().toString();       //服薬開始日
             String endDateLong = medicationEndDateInput.getText().toString();           //服薬終了日
             String memo = memoEdit.getText().toString();                                //メモ
             String notification = notificationSpinner.getSelectedItem().toString();     //通知
 
+
             if (medicineName.isEmpty()) {
                 Toast.makeText(this, "おくすり名を入力してください", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (dosageCount.isEmpty()) {
+                Toast.makeText(this, "服用回数を入力してください", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (dosage.isEmpty()) {
+                Toast.makeText(this, "服用量を入力してください", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (startDateLong.isEmpty()) {
+                Toast.makeText(this, "服用開始日を入力してください", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (endDateLong.isEmpty()) {
+                Toast.makeText(this, "服用終了日を入力してください", Toast.LENGTH_SHORT).show();
                 return;
             }
 

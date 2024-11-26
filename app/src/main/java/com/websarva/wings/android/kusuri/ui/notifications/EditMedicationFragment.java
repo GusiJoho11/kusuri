@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -70,7 +69,6 @@ public class EditMedicationFragment extends Fragment {
                     medicationNameInput.setText(currentMedication.name);
                     medicationFrequencyInput.setText(String.valueOf(currentMedication.frequency));
                     medicationDosageInput.setText(String.valueOf(currentMedication.dosage));
-                    //　Spinnerの項目から一致するインデックスを探して設定（錠・包）
                     medicationStartDateInput.setText(String.valueOf(currentMedication.getStartDate()));
                     medicationEndDateInput.setText(String.valueOf(currentMedication.getEndDate()));
                     medicationMemoInput.setText(String.valueOf(currentMedication.memo));
@@ -112,6 +110,7 @@ public class EditMedicationFragment extends Fragment {
         medicationEndDateInput.setOnClickListener(
                 v -> showDatePickerDialog(medicationEndDateInput,currentMedication.enddate));
 
+
         // 保存ボタンでデータを更新
         saveButton.setOnClickListener(v -> {
             Log.d("EditMedicationFragment", "EditMedicationFragment saveButton.setOnClickListener");
@@ -144,8 +143,6 @@ public class EditMedicationFragment extends Fragment {
                 medicationDao.updateMedication(currentMedication);
             }).start();
 
-
-
             getActivity().getSupportFragmentManager().popBackStack();
         });
 
@@ -154,8 +151,6 @@ public class EditMedicationFragment extends Fragment {
             getActivity().getSupportFragmentManager().popBackStack();// 画面を閉じる
             Toast.makeText(getActivity(), "キャンセルしました", Toast.LENGTH_SHORT).show();
         });
-
-
 
     }
 

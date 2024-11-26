@@ -53,4 +53,20 @@
         app:destination="@id/navigation_editmedication" />
 
 
+    <fragment
+        android:id="@+id/navigation_edit_healthcare"
+        android:name="com.websarva.wings.android.kusuri.ui.dashboard.EditHealthCareFragment"
+        android:label="健康管理編集"
+        tools:layout="@layout/fragment_edit_healthcare">
+        <!-- 必要に応じて引数を定義 -->
+        <argument
+            android:name="healthCareId"
+            app:argType="integer" />
+    </fragment>
+    <!-- EditHealthCareFragment へのアクション -->
+    <action
+        android:id="@+id/action_healthCareFragment_to_editHealthCareFragment"
+        app:destination="@id/navigation_edit_healthcare" />
+
+
 </navigation>

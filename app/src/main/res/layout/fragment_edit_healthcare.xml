@@ -16,7 +16,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp"
             android:paddingBottom="20dp"
-            android:text="@string/health_management"
+            android:text="体調編集画面"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -58,7 +58,7 @@
             android:layout_marginStart="10dp"
             android:paddingTop="30dp"
             android:paddingBottom="5dp"
-            android:text="登録"
+            android:text="編集"
             android:textSize="23sp" />
 
         <!-- 下線を追加 -->
@@ -169,6 +169,15 @@
                 android:gravity="center_vertical"
                 android:text="@string/blood_sugar"
                 android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/HCtiming_spinner_ud"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:entries="@array/HCtiming"
+                android:padding="8dp"
+                android:gravity="center_vertical" />
+
             <EditText
                 android:id="@+id/sugarEditText_ud"
                 android:layout_width="match_parent"
@@ -193,7 +202,7 @@
                 android:id="@+id/registerButton_ud"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/da_register" />
+                android:text="更新" />
 
             <Button
                 android:id="@+id/deleteButton_ud"

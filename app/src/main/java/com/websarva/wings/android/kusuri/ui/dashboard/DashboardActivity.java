@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,9 +32,10 @@ public class DashboardActivity extends AppCompatActivity {
     private TextView dateTextView;
 
     private EditText tempEditText;           //体温
+    private EditText weightEditText;        //体重
     private EditText bpUpEditText;           //血圧（上）
     private EditText bpDownEditText;        //血圧（下）
-    private EditText weightEditText;        //体重
+    private Spinner hcTimingSpinner;        //食前・食後
     private EditText sugarEditText;          //血糖値
 
     private Button registerButton, deleteButton;    //登録・キャンセルボタン
@@ -58,9 +60,10 @@ public class DashboardActivity extends AppCompatActivity {
         // 登録ボタンのクリックリスナー
         registerButton.setOnClickListener(v -> {
             String temp = tempEditText.getText().toString().trim();
+            String weight = weightEditText.getText().toString().trim();
             String bpUp = bpUpEditText.getText().toString().trim();
             String bpDown = bpDownEditText.getText().toString().trim();
-            String weight = weightEditText.getText().toString().trim();
+            String hcTiming = hcTimingSpinner.getSelectedItem().toString();
             String sugar = sugarEditText.getText().toString().trim();
 
             // 入力チェック：すべて空ならエラーメッセージを表示
@@ -72,23 +75,38 @@ public class DashboardActivity extends AppCompatActivity {
             try {
             // キャストしてHealthcare オブジェクトを作成し保存
             HealthCare healthCare = new HealthCare();
-            healthCare.temperature= Double.parseDouble(temp);
-            healthCare.pressureUp = Integer.parseInt(bpUp);
-            healthCare.pressureDown = Integer.parseInt(bpDown);
-            healthCare.weight = Double.parseDouble(weight);
-            healthCare.sugar = Integer.parseInt(sugar);
+            if (!temp.isEmpty()) {
+                healthCare.temperature= Double.parseDouble(temp);
+            }
+            if (!weight.isEmpty()) {
+                healthCare.weight = Double.parseDouble(weight);
+            }
+
+            if (!bpUp.isEmpty() && !bpDown.isEmpty()) {
+                healthCare.pressureUp = Integer.parseInt(bpUp);
+            }
+
+            if (!bpDown.isEmpty()) {
+                healthCare.pressureDown = Integer.parseInt(bpDown);
+            }
+
+            healthCare.hc_timing = hcTiming;
+
+            if (!sugar.isEmpty()) {
+                healthCare.sugar = Integer.parseInt(sugar);
+            }
+
 
             // データベースに健康情報を挿入（バックグラウンドスレッドで処理）
             new Thread(() -> {
                 healthCareDao.insertHealthCare(healthCare);
 //            runOnUiThread(this::displayHealthCare);  // メインスレッドでリストを更新
-
-            }).start();
-        } catch (NumberFormatException e) {
-            if (this != null) {
-                Toast.makeText(this, "全ての項目に値を入力してください。", Toast.LENGTH_LONG).show();
+                }).start();
+            } catch (NumberFormatException e) {
+                if (this != null) {
+                    Toast.makeText(this, "全ての項目に値を入力してください。", Toast.LENGTH_LONG).show();
+                }
             }
-        }
             Toast.makeText(DashboardActivity.this, "健康情報を登録しました", Toast.LENGTH_LONG).show();
             finish();  // Activityを閉じる
     });
@@ -121,9 +139,10 @@ public class DashboardActivity extends AppCompatActivity {
     //服薬登録画面から画面部品の取得
     private void HCinitializeViews() {
         tempEditText = findViewById(R.id.tempEditText);                       //体温
+        weightEditText = findViewById(R.id.weightEditText);                   //体重
         bpUpEditText = findViewById(R.id.bpUpEditText);                       //血圧(上)
         bpDownEditText = findViewById(R.id.bpDownEditText);                   //血圧（下）
-        weightEditText = findViewById(R.id.weightEditText);                   //体重
+        hcTimingSpinner = findViewById(R.id.HCtiming_spinner);
         sugarEditText = findViewById(R.id.sugarEditText);                     //血糖値
         registerButton = findViewById(R.id.registerButton);                   //登録ボタン
         deleteButton = findViewById(R.id.deleteButton);                       //キャンセルボタン

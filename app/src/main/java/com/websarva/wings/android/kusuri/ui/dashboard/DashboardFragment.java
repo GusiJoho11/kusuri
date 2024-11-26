@@ -78,7 +78,7 @@ public class DashboardFragment extends Fragment {
         // LiveData を観察してデータが変わったらリサイクラービューにアダプターにセット
         HCViewModel.getHealthCareList().observe(getViewLifecycleOwner(), healthCareList -> {
             Log.d("DashboardFragment", "healthCareList = " + healthCareList);
-            adapter = new HealthCareAdapter(healthCareList);
+            adapter = new HealthCareAdapter(healthCareList, healthCareDao, requireContext());
             HCrecyclerView.setAdapter(adapter);
         });
 
